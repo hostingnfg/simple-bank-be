@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  email       String  @unique
+  firstName   String
+  lastName    String
+  accounts    Account[]
+  createdAt   DateTime   @default(now())
+}
+
+model Account {
+  id                Int     @id @default(autoincrement())
+  owner             User    @relation(fields: [ownerId], references: [id])
+  ownerId           Int
+  balance           Int
+  type              AccountType @default(UserAccount)
+  createdAt         DateTime   @default(now())
+  periodOfPayment   Int?
+  currency          Currency
+  outTransactions   MoneyTransaction[] @relation("outTransactions")
+  inputTransactions MoneyTransaction[] @relation("inputTransactions")
+}
+
+model MoneyTransaction {
+   id                   Int              @id @default(autoincrement())
+   from                 Account?         @relation("outTransactions", fields: [fromId], references: [id])
+   to                   Account?         @relation("inputTransactions", fields: [toId], references: [id])
+   fromId               Int
+   toId                 Int
+   fromBalanceBefore    Int
+   fromBalanceAfter     Int
+   toBalanceBefore      Int
+   toBalanceAfter       Int
+   amount               Int
+   createdAt            DateTime         @default(now())
+   type                 TransactionType
+}
+
+enum AccountType {
+  BankAccount
+  UserAccount
+  DepositAccount
+  CreditAccount
+}
+
+enum TransactionType {
+    Remittance
+    CurrencyExchange
+    AccrualOfFine
+    LoanInterest
+    ClosingLoan
+    DepositInterest
+    ClosingDeposit
+    Commission
+}
+
+enum Currency {
+    EUR
+    USD
+    GBP
+}
