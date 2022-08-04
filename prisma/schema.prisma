@@ -11,8 +11,8 @@ datasource db {
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
-  email       String  @unique
+  id          Int        @id @default(autoincrement())
+  email       String     @unique
   password    String
   firstName   String
   lastName    String
@@ -21,16 +21,16 @@ model User {
 }
 
 model Account {
-  id                Int     @id @default(autoincrement())
-  owner             User    @relation(fields: [ownerId], references: [id])
+  id                Int                 @id @default(autoincrement())
+  owner             User                @relation(fields: [ownerId], references: [id])
   ownerId           Int
   balance           Int
-  type              AccountType @default(UserAccount)
-  createdAt         DateTime   @default(now())
+  type              AccountType         @default(UserAccount)
+  createdAt         DateTime            @default(now())
   periodOfPayment   Int?
   currency          Currency
-  outTransactions   MoneyTransaction[] @relation("outTransactions")
-  inputTransactions MoneyTransaction[] @relation("inputTransactions")
+  outTransactions   MoneyTransaction[]  @relation("outTransactions")
+  inputTransactions MoneyTransaction[]  @relation("inputTransactions")
 }
 
 model MoneyTransaction {

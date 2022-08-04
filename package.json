@@ -8,6 +8,9 @@
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
+  "prisma": {
+    "seed": "ts-node prisma/seeds/seed.ts"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hostingnfg/simple-bank-be.git"
