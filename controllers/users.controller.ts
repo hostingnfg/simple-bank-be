@@ -2,6 +2,7 @@ import express from 'express';
 import { validationResult } from 'express-validator';
 import RegistrationValidator from "../validators/registration.validator";
 import UsersService from "../services/users.service";
+import AuthValidator from "../validators/auth.validator";
 
 const UsersController = express.Router()
 
@@ -35,6 +36,28 @@ UsersController.route('/')
         } else {
           res.status(500).json({ errors: [] })
         }
+      }
+    }
+  )
+
+UsersController.route('/login')
+  .post(
+    ...AuthValidator,
+    async (req, res) => {
+      try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          res.status(400).json({errors: errors.array()});
+        } else {
+          const loginDTO = await UsersService.login(req.body);
+          if (loginDTO) {
+            res.send(loginDTO)
+          } else {
+            res.status(500).json({ errors: [] })
+          }
+        }
+      } catch (e) {
+        res.status(500).json({ errors: [] })
       }
     }
   )
