@@ -28,6 +28,8 @@ model Account {
   type              AccountType         @default(UserAccount)
   createdAt         DateTime            @default(now())
   periodOfPayment   Int?
+  expirationDate    DateTime?
+  interest          Int?
   currency          Currency
   outTransactions   MoneyTransaction[]  @relation("outTransactions")
   inputTransactions MoneyTransaction[]  @relation("inputTransactions")
@@ -59,6 +61,8 @@ enum TransactionType {
     Remittance
     CurrencyExchange
     AccrualOfFine
+    IssuanceOfLoan
+    OpeningDeposit
     LoanInterest
     ClosingLoan
     DepositInterest
