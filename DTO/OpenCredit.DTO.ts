@@ -1,9 +1,3 @@
-import {Currency} from "@prisma/client";
+import {OpenDebentureDTO} from "./OpenDebenture.DTO";
 
-export interface OpenCreditDTO {
-  currency: Currency;
-  expirationDate: number;
-  periodOfPayment: number;
-  amount: number;
-  account: number;
-}
+export interface OpenCreditDTO extends OpenDebentureDTO {}
