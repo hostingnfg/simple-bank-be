@@ -15,6 +15,18 @@ class Repository {
     // @ts-ignore
     return this.client[this.model].findUnique(data)
   }
+  findMany(data: any): Promise<any> {
+    // @ts-ignore
+    return this.client[this.model].findMany(data)
+  }
+  findFirst(data: any): Promise<any> {
+    // @ts-ignore
+    return this.client[this.model].findFirst(data)
+  }
+  update(data: any): Promise<any> {
+    // @ts-ignore
+    return this.client[this.model].update(data)
+  }
 }
 
 export default Repository;

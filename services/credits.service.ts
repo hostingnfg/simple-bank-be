@@ -4,7 +4,7 @@ import CreditsRepository from "../repositories/credits.repository";
 
 class CreditsService {
   getCurrentInterest() {
-    return 5;
+    return 500;
   }
   async orderCredit(user: User, data: OpenCreditDTO) {
     return await CreditsRepository.createCredit(data, user, this.getCurrentInterest())

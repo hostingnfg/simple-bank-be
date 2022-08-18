@@ -10,37 +10,65 @@ export class AccountsRepository extends Repository {
       }
     })
   }
-  async moneyTransfer(from: Account, to: Account, amount: number, type: TransactionType) {
-    return await this.client.$transaction([
-      this.client.moneyTransaction.create({
-        data: {
-          fromId: from.id,
-          toId: to.id,
-          fromBalanceBefore: from.balance,
-          fromBalanceAfter: from.balance - amount,
-          toBalanceBefore: to.balance,
-          toBalanceAfter: to.balance + amount,
-          amount,
-          type
-        }
-      }),
-      this.client.account.update({
+  async getDebitAccount(currency: Currency, ownerId: number) {
+    return await this.findFirst({
+      where: {
+        currency,
+        ownerId,
+        type: AccountType.UserAccount
+      }
+    })
+  }
+  async closeDebentureAccount(account: Account) {
+    return await this.update({
+      where: {
+        id: account.id
+      },
+      data: {
+        balance: 0
+      }
+    })
+  }
+  async moneyTransfer(from: Account, to: Account, amount: number, type: TransactionType, productId?: number) {
+    await this.client.moneyTransaction.create({
+      data: {
+        fromId: from.id,
+        toId: to.id,
+        fromBalanceBefore: from.balance,
+        fromBalanceAfter: from.balance - amount,
+        toBalanceBefore: to.balance,
+        toBalanceAfter: to.balance + amount,
+        amount,
+        type,
+        productId
+      }
+    });
+    await this.client.account.update({
         where: {
           id: to.id
         },
         data: {
           balance: to.balance + amount
         }
-      }),
-      this.client.account.update({
+    });
+    await this.client.account.update({
         where: {
           id: from.id
         },
         data: {
           balance: from.balance - amount
         }
-      })
-    ]);
+    });
+  }
+  async closeAccount(account: Account) {
+    return await this.update({
+      where: {
+        id: account.id
+      },
+      data: {
+        active: false
+      }
+    })
   }
 }
 

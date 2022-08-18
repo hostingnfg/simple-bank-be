@@ -35,7 +35,7 @@ class UsersService {
       token: jwt.sign(
         { id: user.id },
         process.env.JWT_SECRET ?? '',
-        { expiresIn: 3600 }
+        { expiresIn: 86400 }
       ),
       firstName: user.firstName,
       lastName: user.lastName,
@@ -59,7 +59,7 @@ class UsersService {
         email: data.email
       }
     })
-    if(await this.checkPassword(user.password, data.password)) {
+    if(user && await this.checkPassword(user.password, data.password)) {
       return this.generateJWT(user)
     } else {
       return false;

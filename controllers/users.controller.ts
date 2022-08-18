@@ -53,7 +53,7 @@ UsersController.route('/login')
           if (loginDTO) {
             res.send(loginDTO)
           } else {
-            res.status(500).json({ errors: [] })
+            res.status(401).json({ errors: {auth: false}})
           }
         }
       } catch (e) {

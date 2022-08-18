@@ -21,26 +21,30 @@ model User {
 }
 
 model Account {
-  id                Int                 @id @default(autoincrement())
-  owner             User                @relation(fields: [ownerId], references: [id])
-  ownerId           Int
-  balance           Int
-  type              AccountType         @default(UserAccount)
-  createdAt         DateTime            @default(now())
-  periodOfPayment   Int?
-  expirationDate    DateTime?
-  interest          Int?
-  currency          Currency
-  outTransactions   MoneyTransaction[]  @relation("outTransactions")
-  inputTransactions MoneyTransaction[]  @relation("inputTransactions")
+  id                    Int                 @id @default(autoincrement())
+  owner                 User                @relation(fields: [ownerId], references: [id])
+  ownerId               Int
+  balance               Int
+  type                  AccountType         @default(UserAccount)
+  createdAt             DateTime            @default(now())
+  periodOfPayment       Int?
+  expirationDate        DateTime?
+  interest              Int?
+  currency              Currency
+  outTransactions       MoneyTransaction[]  @relation("outTransactions")
+  inputTransactions     MoneyTransaction[]  @relation("inputTransactions")
+  relatedTransactions   MoneyTransaction[]  @relation("product")
+  active                Boolean             @default(true)
 }
 
 model MoneyTransaction {
    id                   Int              @id @default(autoincrement())
    from                 Account?         @relation("outTransactions", fields: [fromId], references: [id])
    to                   Account?         @relation("inputTransactions", fields: [toId], references: [id])
+   product              Account?         @relation("product", fields: [productId], references: [id])
    fromId               Int
    toId                 Int
+   productId            Int?
    fromBalanceBefore    Int
    fromBalanceAfter     Int
    toBalanceBefore      Int

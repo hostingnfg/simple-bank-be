@@ -6,7 +6,11 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "calc": "node dist/calculations.js",
+    "prod": "npm run build && npm run start",
+    "prod-calc": "npm run build && npm run calc",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "dev-calc": "concurrently \"npx tsc --watch\" \"nodemon -q dist/calculations.js\""
   },
   "prisma": {
     "seed": "ts-node prisma/seeds/seed.ts"
