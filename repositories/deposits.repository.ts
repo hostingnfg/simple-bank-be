@@ -1,9 +1,9 @@
 import {AccountsRepository} from "./accounts.repository";
-import {Account, AccountType, TransactionType, User} from "@prisma/client";
-import {OpenDepositDTO} from "../DTO/OpenDeposit.DTO";
+import {AccountType, TransactionType, User} from "@prisma/client";
+import {OpenDebentureDTO} from "../DTO/OpenDebenture.DTO";
 
 class DepositsRepository extends AccountsRepository {
-  async createDeposit(data: OpenDepositDTO, user: User, interest: number) {
+  async createDeposit(data: OpenDebentureDTO, user: User, interest: number) {
     const systemAccount = await this.getSystemAccount(data.currency)
     const expirationDate = new Date(data.expirationDate);
     const targetAccount = await this.findUnique({

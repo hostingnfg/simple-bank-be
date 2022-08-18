@@ -8,7 +8,6 @@ const AuthMiddleware = express.Router()
 
 const publicRoutes = ['/users/login', '/users'];
 
-// @ts-ignore
 AuthMiddleware.use((req, res, next) => {
   if (publicRoutes.includes(req.path)) {
     next();
@@ -19,16 +18,16 @@ AuthMiddleware.use((req, res, next) => {
         error: 'Unauthorized'
       })
     } else {
-      jwt.verify(token, process.env.JWT_SECRET ?? '', (err, user: any) => {
+      jwt.verify(token, process.env.JWT_SECRET ?? '', (err, user) => {
         if (err) {
           res.status(401).json({
             error: 'Unauthorized'
           })
         } else {
-          const result = UsersService.generateJWT(user);
+          const result = UsersService.generateJWT(user as User);
           UsersRepository.findUnique({
             where: {
-              id: user.id
+              id: (user as User).id
             }
           })
             .then((user: User) => {

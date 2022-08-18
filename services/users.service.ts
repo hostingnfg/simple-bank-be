@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {AuthResponseDTO} from "../DTO/AuthResponse.DTO";
 import {LoginDTO} from "../DTO/Login.DTO";
+import {User} from "@prisma/client";
 
 class UsersService {
   encryptPassword(password: string): Promise<string> {
@@ -24,13 +25,13 @@ class UsersService {
     })
   }
   checkPassword(hashedPassword: string, password: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       bcrypt.compare(password, hashedPassword, function(err, isPasswordMatch) {
         resolve(!err && isPasswordMatch)
       });
     })
   }
-  generateJWT(user: any):AuthResponseDTO {
+  generateJWT(user: User):AuthResponseDTO {
     return {
       token: jwt.sign(
         { id: user.id },

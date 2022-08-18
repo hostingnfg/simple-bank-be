@@ -1,13 +1,13 @@
-import {Account, AccountType, Currency, User, MoneyTransaction, TransactionType} from "@prisma/client";
-import {OpenDepositDTO} from "../DTO/OpenDeposit.DTO";
+import {User, MoneyTransaction, TransactionType} from "@prisma/client";
 import DepositsRepository from "../repositories/deposits.repository";
 import {AccountRelTransactionsDTO} from "../DTO/AccountRelTransactions.DTO";
+import {OpenDebentureDTO} from "../DTO/OpenDebenture.DTO";
 
 class DepositsService {
   getCurrentInterest() {
     return 400;
   }
-  async orderDeposit(user: User, data: OpenDepositDTO) {
+  async orderDeposit(user: User, data: OpenDebentureDTO) {
     return await DepositsRepository.createDeposit(data, user, this.getCurrentInterest())
   }
 

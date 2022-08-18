@@ -3,6 +3,7 @@ import { validationResult } from 'express-validator';
 import RegistrationValidator from "../validators/registration.validator";
 import UsersService from "../services/users.service";
 import AuthValidator from "../validators/auth.validator";
+import {PrismaErrorDTO} from "../DTO/PrismaError.DTO";
 
 const UsersController = express.Router()
 
@@ -22,8 +23,8 @@ UsersController.route('/')
             res.status(500).json({ errors: [] })
           }
         }
-      } catch (e: any) {
-        if (e.meta?.target === 'User_email_key') {
+      } catch (e) {
+        if ((e as PrismaErrorDTO).meta?.target === 'User_email_key') {
           res.status(400).json({
             errors: [
               {

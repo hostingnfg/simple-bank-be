@@ -1,9 +1,9 @@
 import {AccountsRepository} from "./accounts.repository";
-import {OpenCreditDTO} from "../DTO/OpenCredit.DTO";
 import {AccountType, TransactionType, User} from "@prisma/client";
+import {OpenDebentureDTO} from "../DTO/OpenDebenture.DTO";
 
 class CreditsRepository extends AccountsRepository {
-  async createCredit(data: OpenCreditDTO, user: User, interest: number) {
+  async createCredit(data: OpenDebentureDTO, user: User, interest: number) {
     const systemAccount = await this.getSystemAccount(data.currency)
     if (systemAccount) {
       if (systemAccount.balance < data.amount) {

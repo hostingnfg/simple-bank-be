@@ -1,7 +1,5 @@
 import express from 'express';
-import OpenAccountValidator from "../validators/open-account.validator";
 import {validationResult} from "express-validator";
-import AccountsService from "../services/accounts.service";
 import OpenCreditValidator from "../validators/open-credit.validator";
 import CreditsService from "../services/credits.service";
 

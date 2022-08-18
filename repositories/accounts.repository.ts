@@ -10,6 +10,7 @@ export class AccountsRepository extends Repository {
       }
     })
   }
+
   async getDebitAccount(currency: Currency, ownerId: number) {
     return await this.findFirst({
       where: {
@@ -19,16 +20,7 @@ export class AccountsRepository extends Repository {
       }
     })
   }
-  async closeDebentureAccount(account: Account) {
-    return await this.update({
-      where: {
-        id: account.id
-      },
-      data: {
-        balance: 0
-      }
-    })
-  }
+
   async moneyTransfer(from: Account, to: Account, amount: number, type: TransactionType, productId?: number) {
     await this.client.moneyTransaction.create({
       data: {
@@ -60,6 +52,7 @@ export class AccountsRepository extends Repository {
         }
     });
   }
+
   async closeAccount(account: Account) {
     return await this.update({
       where: {
